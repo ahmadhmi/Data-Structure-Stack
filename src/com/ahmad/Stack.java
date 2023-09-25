@@ -1,36 +1,42 @@
 package com.ahmad;
 
-public class Stack {
-    private int[] array;
-    private int size;
+import java.util.Arrays;
 
-    public Stack(int length){
-        array = new int[length];
-    }
+public class Stack {
+    private int[] array = new int[5];
+    private int count;
+
 
     private boolean isFull(){
-        return size == array.length;
+        return count == array.length;
     }
 
-    private void expand(){
-        int[] newArray = new int[size * 2];
-        for (int i = 0; i < size; i++)
-            newArray[i] = array[i];
-        array = newArray;
-    }
 
     public void push(int num){
         if (isFull())
-            expand();
-        array[size] = num;
-        size++;
+            throw new StackOverflowError();
+        array[count++] = num;
     }
     public int peek(){
-        return array[size];
+        if (empty())
+            throw new IllegalStateException();
+        return array[count - 1];
     }
 
     public int pop(){
+        if (empty())
+            throw new IllegalStateException();
+        return array[--count];
+    }
 
+    public boolean empty(){
+        return count == 0;
+    }
+
+    @Override
+    public String toString(){
+        int[] content = Arrays.copyOfRange(array, 0, count);
+        return Arrays.toString(content);
     }
 
 
